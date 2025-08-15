@@ -53,7 +53,7 @@ Laser:
 - Steady Aim Laser
 - Fast Motion Laser
 - Tactical Laser
-- Strelok Laser
+- Sterelok Laser
 - Target Laser
 
 Fire Mods:

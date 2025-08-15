@@ -20,55 +20,21 @@ type LoadoutParsed = {
   melee: MeleeEntry[];
 };
 
-function normalizeGameHeader(h: string): "BO6" | "MW2" | "MW3" {
-  const v = h.trim().replace(/\s+/g, "").toUpperCase();
-  if (v.startsWith("BO6")) return "BO6";
-  if (v.startsWith("MW2")) return "MW2";
-  if (v.startsWith("MW3")) return "MW3";
-  return "BO6";
-}
-
-function normalizeCategory(s: string): string {
-  const cleaned = s.replace(/\s+/g, " ").trim().toLowerCase();
-  return cleaned.replace(/assult/g, "assault").replace(/refile/g, "rifle");
-}
-
-function extractGameHeader(text: string): "BO6" | "MW2" | "MW3" | null {
-  const m = text.match(/^#\s*(.+)$/m);
-  return m && m[1] ? normalizeGameHeader(m[1]) : null;
-}
-
+// NOTE: several small normalization helpers were intentionally inlined where
+// needed to keep parsing behavior explicit and avoid global helper mutability.
 function classifyRole(category: string): {
   primary: boolean;
   secondary: boolean;
 } {
   const c = category.toLowerCase();
-  const isSecondary = /(handgun|pistol|secondary|sidearm)/.test(c);
+  // Treat explicit secondary categories and certain special categories as secondary
+  const isSecondary =
+    /(handgun|pistol|secondary|sidearm)/.test(c) ||
+    /\b(launcher|pistal|special)\b/.test(c);
   return { primary: !isSecondary, secondary: isSecondary };
 }
 
-function normalizeAttachmentName(name: string): string {
-  let n = name.trim();
-  n = n
-    .replace(/Extended Mag\s*1\b/gi, "Extended Mag I")
-    .replace(/Extended Mag\s*2\b/gi, "Extended Mag II")
-    .replace(/Extended Mag\s*3\b/gi, "Extended Mag III")
-    .replace(/Fast Mag\s*$/gi, "Fast Mag I")
-    .replace(/Fast Mag\s*1\b/gi, "Fast Mag I")
-    .replace(/Stre?elok Laser/gi, "Strelok Laser")
-    .replace(/Mararov/gi, "Makarov")
-    .replace(/Markarov/gi, "Makarov")
-    .replace(/Compensaator/gi, "Compensator");
-  return n;
-}
-
-function normalizeName(name: string): string {
-  // General typo cleanup for equipment/perks
-  return name
-    .trim()
-    .replace(/Termobaric/gi, "Thermobaric")
-    .replace(/Moutaineer/gi, "Mountaineer");
-}
+// normalize helpers removed; parsing uses minimal trimming and inline mapping where needed.
 
 function parseSections(
   text: string,
@@ -93,7 +59,7 @@ function parseSections(
     }
     if (!current) continue;
     if (line.startsWith("- ")) {
-      const name = normalizeAttachmentName(line.replace(/^-\s*/, "").trim());
+      const name = line.replace(/^-\s*/, "").trim();
       if (name && sections[current])
         out.push({ name, slot: sections[current] as string });
       continue;
@@ -169,7 +135,7 @@ function parseLoadout(text: string): LoadoutParsed | null {
       continue;
     }
     if (/^\-\s+/.test(line)) {
-      const item = normalizeName(line.replace(/^\-\s+/, "").trim());
+      const item = line.replace(/^\-\s+/, "").trim();
       if (!item) continue;
       if (section === "tactical") tactical.push(item);
       else if (section === "lethal") lethal.push(item);
@@ -203,11 +169,18 @@ function parseMeleeByGame(
     if (!line) continue;
     const gm = line.match(/^#\s*(.+)$/);
     if (gm) {
-      current = normalizeGameHeader(gm[1]);
+      const graw = (gm[1] ?? "BO6").trim().replace(/\s+/g, "").toUpperCase();
+      current = graw.startsWith("BO6")
+        ? "BO6"
+        : graw.startsWith("MW2")
+          ? "MW2"
+          : graw.startsWith("MW3")
+            ? "MW3"
+            : "BO6";
       continue;
     }
     if (/^\-\s+/.test(line) && current) {
-      const name = normalizeName(line.replace(/^\-\s+/, "").trim());
+      const name = line.replace(/^\-\s+/, "").trim();
       if (name) out.push({ name, game: current });
     }
   }
@@ -216,15 +189,25 @@ function parseMeleeByGame(
 
 async function parseNotes(text: string): Promise<Parsed> {
   const gameMatch = text.match(/^#\s*(.+)$/m);
-  const game = normalizeGameHeader(
-    gameMatch && gameMatch[1] ? gameMatch[1] : "BO6",
-  );
+  const graw = (gameMatch && gameMatch[1] ? gameMatch[1] : "BO6")
+    .trim()
+    .replace(/\s+/g, "")
+    .toUpperCase();
+  const game: "BO6" | "MW2" | "MW3" = graw.startsWith("BO6")
+    ? "BO6"
+    : graw.startsWith("MW2")
+      ? "MW2"
+      : graw.startsWith("MW3")
+        ? "MW3"
+        : "BO6";
   const gunMatch = text.match(/^Gun:\s*(.+)$/m);
   const name = gunMatch && gunMatch[1] ? gunMatch[1].trim() : undefined;
   if (!name) throw new Error("Gun name not found in notes");
   const catMatch = text.match(/^Category:\s*(.+)$/m);
-  const category =
-    catMatch && catMatch[1] ? normalizeCategory(catMatch[1]) : "assault rifle";
+  const category = (catMatch && catMatch[1] ? catMatch[1] : "assault rifle")
+    .replace(/\s+/g, " ")
+    .trim()
+    .toLowerCase();
   const role = classifyRole(category);
   const sections: Record<string, string> = {
     Optics: "optic",
@@ -234,6 +217,9 @@ async function parseNotes(text: string): Promise<Parsed> {
     Magazine: "magazine",
     "Rear Grip": "rear_grip",
     Stock: "stock",
+    "Stock Pad": "stock_pad",
+    Comb: "comb",
+    Lever: "lever",
     Laser: "laser",
     "Fire Mods": "fire_mod",
   };

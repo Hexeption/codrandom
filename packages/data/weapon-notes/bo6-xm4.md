@@ -1,14 +1,14 @@
 # Bo6
 
 Gun: XM4
-Category:Assult Refile
+Category: Assault Rifle
 Optics:
 
 - Remuda Mini Reflex
 - Otero Micro Dot
 - Kepler Microflex
 - Merlin Mini
-- Prismatech Reflex
+- PrismaTech Reflex
 - Volzhskiy Reflex
 - Merlin Reflex
 - Redwell Reflex
@@ -22,10 +22,10 @@ Optics:
 - Accu-Spot Ultra Holo
 - Jason Armory 2x
 - Willis 3x
-- Prismatech 4x
+- PrismaTech 4x
 - Dobrych 4x
 - Pinpoint Hybrid
-- Prismapoint Hybrid
+- PrismaPoint Hybrid
 - Hawker Hybrid
 - R&K Multizoom
 - Blandwell 7x Scope
@@ -34,7 +34,7 @@ Optics:
 - Suppressor
 - Compensator
 - Muzzle Brake
-- Ported Compensaator
+- Ported Compensator
 - Monolithic Suppressor
   Barrel:
 - Gain-Twist Barrel
@@ -60,10 +60,9 @@ Optics:
 - Extended Mag II
 - Flip Mag
 - Extended Mag III
-- Fast Mag I
   Rear Grip:
 - Quickdraw Grip
-- Assult Grip
+- Assault Grip
 - Commando Grip
 - Ergonomic Grip
 - CQB Grip
@@ -83,6 +82,6 @@ Optics:
   Fire Mods:
 - XM4 3-Round Burst Mod
 - Rapid Fire
-- 5.56 Nato Overpressured
+- 5.56 NATO Overpressured
 - Recoil Springs
-- 5.56 Nato FMJ
+- 5.56 NATO FMJ

@@ -10,40 +10,54 @@ Optics:
 - Merlin Mini
 - Accu-Spot Reflex
 - Kepler Pistol Scope
-  Muzzle:
+
+Muzzle:
+
 - Suppressor
 - Compensator
 - Muzzle Brake
-- Ported Compensaator
+- Ported Compensator
 - Monolithic Suppressor
-  Barrel:
+
+Barrel:
+
 - Gain-Twist Barrel
 - Long Barrel
 - Reinforced Barrel
 - Short Barrel
 - CHF Barrel
 - 9MM PM Skull Splitter Barrel
-  Magazine:
+
+Magazine:
+
 - Extended Mag I
 - Fast Mag I
 - Extended Mag II
 - Skull Splitter Extended Mag
-  Rear Grip:
+
+Rear Grip:
+
 - Quickdraw Grip
-- Assult Grip
+- Assault Grip
 - Commando Grip
 - Ergonomic Grip
 - CQB Grip
-  Stock:
+
+Stock:
+
 - Akimbo 9MM PM
-  Laser:
+
+Laser:
+
 - Steady Aim Laser
 - Fast Motion Laser
 - Tactical Laser
 - Sterelok Laser
 - Target Laser
-  Fire Mods:
+
+Fire Mods:
+
 - Rapid Fire
-- 9x18mm Mararov Overpressured
+- 9x18mm Makarov Overpressured
 - Recoil Springs
-- 9x18mm Markarov FMJ
+- 9x18mm Makarov FMJ

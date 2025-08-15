@@ -2,6 +2,7 @@
 
 Gun: GS45
 Category: Secondary
+
 Optics:
 
 - Remuda Mini Reflex
@@ -10,38 +11,52 @@ Optics:
 - Merlin Mini
 - Accu-Spot Reflex
 - Kepler Pistol Scope
-  Muzzle:
+
+Muzzle:
+
 - Suppressor
 - Compensator
 - Muzzle Brake
 - Ported Compensator
 - Monolithic Suppressor
-  Barrel:
+
+Barrel:
+
 - Gain-Twist Barrel
 - Long Barrel
 - Reinforced Barrel
 - Short Barrel
 - CHF Barrel
-  Magazine:
+
+Magazine:
+
 - Extended Mag I
 - Fast Mag I
 - Extended Mag II
 - Fast Mag II
-  Rear Grip:
+
+Rear Grip:
+
 - Quickdraw Grip
 - Assault Grip
 - Commando Grip
 - Ergonomic Grip
 - CQB Grip
-  Stock:
+
+Stock:
+
 - Akimbo GS45
-  Laser:
+
+Laser:
+
 - Steady Aim Laser
 - Fast Motion Laser
 - Tactical Laser
-- Strelok Laser
+- Sterelok Laser
 - Target Laser
-  Fire Mods:
+
+Fire Mods:
+
 - Rapid Fire
 - .45 ACP Overpressured
 - Recoil Springs

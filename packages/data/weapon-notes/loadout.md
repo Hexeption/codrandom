@@ -29,7 +29,7 @@ Lethal:
 Wildcards:
 
 - Overkill
-  -- Equip two primary or secondary weapons
+- -- Equip two primary or secondary weapons
 - Battle Ready
   -- N/A
 - Gunfighter
