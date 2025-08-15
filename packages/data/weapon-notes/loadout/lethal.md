@@ -1,0 +1,12 @@
+- Frag
+- Semtex
+- Impact Grenade
+- Thermobaric
+- Molotov Cocktail
+- Drill Charge
+- C4
+- Blast Trap
+- Spring Mine
+- Throwing Knife
+- Combat Axe
+- Thermite

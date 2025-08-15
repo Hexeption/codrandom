@@ -1,0 +1,10 @@
+- Flashbang
+- Concussion
+- Smoke Grenade
+- Experimental Gas
+- Snapshot Grenade
+- Shock Charge
+- Decoy
+- Neurogas
+- Stim Shot
+- Spy Camera

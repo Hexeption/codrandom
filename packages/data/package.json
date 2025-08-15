@@ -1,0 +1,28 @@
+{
+  "name": "@codrandom/data",
+  "version": "0.1.0",
+  "private": true,
+  "main": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "prisma:generate": "prisma generate",
+    "seed": "ts-node --transpile-only prisma/generated-seeds/index.ts",
+    "start": "ts-node --transpile-only src/loadout.ts",
+    "gen:seeds": "ts-node --transpile-only scripts/gen-seeds.ts",
+    "seed:generated": "ts-node --transpile-only prisma/generated-seeds/index.ts"
+  },
+  "prisma": {
+    "seed": "ts-node --transpile-only prisma/generated-seeds/index.ts"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.8.0"
+  },
+  "devDependencies": {
+    "prisma": "^5.8.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4",
+    "@types/node": "^20.0.0"
+  }
+}

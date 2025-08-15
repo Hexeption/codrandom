@@ -1,0 +1,9 @@
+# Ignore generated seed modules
+packages/loadout-randomizer/prisma/generated-seeds/
+packages/loadout-randomizer/prisma/generated-seeds/**
+
+# Common ignores (optional)
+node_modules/
+.turbo/
+**/dist/
+**/build/

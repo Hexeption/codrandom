@@ -1,0 +1,14 @@
+{
+  "name": "@codrandom/randomizer",
+  "version": "0.1.0",
+  "private": true,
+  "main": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+  "@codrandom/data": "workspace:*",
+  "@prisma/client": "^5.22.0"
+  },
+  "devDependencies": {}
+}

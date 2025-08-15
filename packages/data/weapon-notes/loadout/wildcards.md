@@ -1,0 +1,6 @@
+- Overkill
+  -- Equip two primary or secondary weapons
+- Battle Ready
+  -- N/A
+- Gunfighter
+  -- Equip 3 extra attachments to your primary weapon (BO6 Only)

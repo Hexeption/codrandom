@@ -1,0 +1,61 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "cockroachdb"
+    url      = env("DATABASE_URL")
+}
+
+model Weapon {
+    id          BigInt             @id @default(autoincrement())
+    name        String
+    category    String
+    game        Game
+    primary     Boolean            @default(true)
+    secondary   Boolean            @default(false)
+    attachments WeaponAttachment[]
+
+    @@unique([name, game])
+}
+
+enum Game {
+    BO6
+    MW2
+    MW3
+}
+
+model Attachment {
+    id      BigInt             @id @default(autoincrement())
+    name    String
+    slot    String
+    weapons WeaponAttachment[]
+
+    @@unique([name, slot])
+}
+
+model WeaponAttachment {
+    weapon       Weapon     @relation(fields: [weaponId], references: [id])
+    weaponId     BigInt
+    attachment   Attachment @relation(fields: [attachmentId], references: [id])
+    attachmentId BigInt
+
+    @@id([weaponId, attachmentId])
+}
+
+model Perk {
+    id   BigInt @id @default(autoincrement())
+    name String
+    slot String
+}
+
+model Equipment {
+    id   BigInt @id @default(autoincrement())
+    name String
+    type String
+}
+
+model WiledCard {
+    id   BigInt @id @default(autoincrement())
+    name String @unique
+}
