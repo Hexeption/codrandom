@@ -276,9 +276,8 @@ export async function ${funcName}(prisma: PrismaClient) {\n`;
     )
     .join("\n");
   const footer = `}\n`;
-  return `${comment}${header}${createWeapon}${
-    linkAttachments ? linkAttachments + "\n" : ""
-  }${footer}`;
+  return `${comment}${header}${createWeapon}${linkAttachments ? linkAttachments + "\n" : ""
+    }${footer}`;
 }
 
 function generateLoadoutSeedModule(p: LoadoutParsed): string {

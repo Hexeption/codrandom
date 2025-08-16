@@ -50,8 +50,8 @@ export async function randomLoadout(
   const wildcardPool = await getWiledCards();
   const prob =
     typeof wildcardChance === "number" &&
-    wildcardChance >= 0 &&
-    wildcardChance <= 1
+      wildcardChance >= 0 &&
+      wildcardChance <= 1
       ? wildcardChance
       : 0.5;
   const useWildcard = applyWildcard ?? Math.random() < prob;
@@ -105,11 +105,11 @@ export async function randomLoadout(
       if (secSlots.has(a.slot)) continue;
       chosenSecondaryAttachments.push(a);
       secSlots.add(a.slot);
-      if (chosenSecondaryAttachments.length >= 3) break;
+      if (chosenSecondaryAttachments.length >= 5) break;
     }
   }
 
-  const perkSlots = ["perk1", "perk2", "perk3"];
+  const perkSlots = ["Perk 1", "Perk 2", "Perk 3"];
   const perks: Record<string, Perk> = {};
   for (const slot of perkSlots) {
     const pool = await getPerksBySlot(slot);

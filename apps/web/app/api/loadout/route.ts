@@ -8,9 +8,8 @@ export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const gameParam = searchParams.get("game") as Game | null;
   try {
-    // Wildcard behavior is fully random inside the library; mask it in API response
     const loadout = await randomLoadout({ game: gameParam ?? undefined });
-    const payload: any = { ...loadout, wildcard: null };
+    const payload: any = { ...loadout };
     return new Response(
       JSON.stringify(payload, (_k, v) =>
         typeof v === "bigint" ? v.toString() : v,
