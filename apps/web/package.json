@@ -13,11 +13,12 @@
   },
   "dependencies": {
     "@workspace/ui": "workspace:*",
-  "@codrandom/randomizer": "workspace:*",
+    "@codrandom/randomizer": "workspace:*",
     "@prisma/client": "^5.22.0",
     "lucide-react": "^0.475.0",
     "next": "^15.4.5",
     "next-themes": "^0.4.6",
+    "sonner": "^2.0.7",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
   },

@@ -50,8 +50,8 @@ export async function randomLoadout(
   const wildcardPool = await getWiledCards();
   const prob =
     typeof wildcardChance === "number" &&
-      wildcardChance >= 0 &&
-      wildcardChance <= 1
+    wildcardChance >= 0 &&
+    wildcardChance <= 1
       ? wildcardChance
       : 0.5;
   const useWildcard = applyWildcard ?? Math.random() < prob;
