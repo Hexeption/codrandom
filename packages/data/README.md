@@ -21,18 +21,18 @@ Prisma schema and seed generator for CoD loadouts, plus a small loadout randomiz
 
 ### DB
 
-CockroachDB is expected for dev. Configure `DATABASE_URL` in `prisma/.env`.
+MariaDB is expected for local development. Configure `DATABASE_URL` in `prisma/.env`.
 
 ### Local DB quickstart
 
-The repo includes a `docker-compose.yml` that can start a local CockroachDB single-node instance. Quick steps to recreate the local DB, push the Prisma schema (creates tables), generate the client, and run the generated seeds:
+Start the dev database with the provided compose file and set up Prisma:
 
 ```bash
-# from the repo root: start CockroachDB
-docker-compose up -d
+# from the repo root: start MariaDB (dev)
+docker compose -f docker-compose.dev.yml up -d
 
-# set DATABASE_URL for this shell session
-export DATABASE_URL="postgresql://root@localhost:26257/defaultdb?sslmode=disable"
+# set DATABASE_URL for this shell session (optional if already in prisma/.env)
+export DATABASE_URL="mysql://app:change-me@127.0.0.1:3306/codrandom"
 
 # push Prisma schema (creates tables)
 pnpm -C packages/data run prisma:push
@@ -44,7 +44,7 @@ pnpm -C packages/data run prisma:generate
 DATABASE_URL="$DATABASE_URL" pnpm -C packages/data run seed:generated
 ```
 
-Open the CockroachDB admin UI at http://localhost:8080 or inspect with Prisma Studio:
+Inspect with Prisma Studio:
 
 ```bash
 DATABASE_URL="$DATABASE_URL" pnpm -C packages/data exec prisma studio --schema=packages/data/prisma/schema.prisma

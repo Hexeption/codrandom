@@ -56,7 +56,7 @@ export function LoadoutGenerator() {
 
     if (enabledGames.length === 0) {
       toast.warning("Select at least one game", {
-        description: "Currently only Black Ops 6 is available.",
+        description: "At this time, Black Ops 6 is the only supported title.",
       });
       return;
     }
@@ -78,7 +78,7 @@ export function LoadoutGenerator() {
       });
     } catch (e: any) {
       const message = e?.message || "Unexpected error";
-      toast.error("Failed to generate loadout", { description: message });
+  toast.error("Couldn’t generate loadout", { description: message });
     } finally {
       setIsGenerating(false);
     }
@@ -102,7 +102,7 @@ export function LoadoutGenerator() {
       <Card className="bg-gradient-to-br from-black/90 to-gray-900/90 border-0 ring-1 ring-warzone/30 shadow-xl backdrop-blur-sm overflow-hidden py-0 gap-0">
         <CardHeader className="bg-gradient-to-r from-warzone/20 to-warzone-2/20 border-b border-warzone/30 rounded-t-xl pt-4">
           <CardTitle className="text-warzone text-xl font-bold text-center">
-            Select Your Arsenal
+            Choose Your Games
           </CardTitle>
         </CardHeader>
         <CardContent className="p-8">
@@ -143,7 +143,7 @@ export function LoadoutGenerator() {
           </div>
           <div className="text-center mt-6">
             <p className="text-gray-400 text-sm">
-              Choose which Call of Duty titles to include weapons from
+              Select the Call of Duty titles to include in the randomizer.
             </p>
             <div className="flex justify-center items-center mt-2 space-x-2">
               <div className="w-2 h-2 bg-warzone rounded-full animate-pulse" />
@@ -169,11 +169,11 @@ export function LoadoutGenerator() {
           {isGenerating ? (
             <>
               <Zap className="mr-2 h-5 w-5 animate-spin" /> Generating
-              Loadout...
+              loadout…
             </>
           ) : (
             <>
-              <Shuffle className="mr-2 h-5 w-5" /> Generate Random Loadout
+              <Shuffle className="mr-2 h-5 w-5" /> Generate random loadout
             </>
           )}
         </Button>
@@ -184,7 +184,7 @@ export function LoadoutGenerator() {
           <Card className="bg-gradient-to-br from-black/90 to-gray-900/90 border-0 ring-1 ring-warzone/30 shadow-xl backdrop-blur-sm overflow-hidden py-0 gap-0">
             <CardHeader className="bg-gradient-to-r from-warzone/20 to-warzone-2/20 border-b border-warzone/30 rounded-t-xl pt-4">
               <CardTitle className="flex items-center text-warzone text-lg">
-                <Target className="mr-2 h-6 w-6" /> Primary Weapon
+                <Target className="mr-2 h-6 w-6" /> Primary weapon
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4 p-6">
@@ -208,7 +208,8 @@ export function LoadoutGenerator() {
               <div>
                 <h4 className="font-semibold text-warzone mb-3 flex items-center">
                   <Wrench className="mr-2 h-4 w-4" /> Attachments (
-                  {currentLoadout.primaryAttachments.length} / 8):
+                  {currentLoadout.primaryAttachments.length} / 8)
+                  :
                 </h4>
                 <div className="grid grid-cols-1 gap-3">
                   {currentLoadout.primaryAttachments.map(
@@ -236,7 +237,7 @@ export function LoadoutGenerator() {
           <Card className="bg-gradient-to-br from-black/90 to-gray-900/90 border-0 ring-1 ring-gray-700/50 shadow-xl backdrop-blur-sm overflow-hidden py-0 gap-0">
             <CardHeader className="bg-gradient-to-r from-gray-600/30 to-gray-500/30 border-b border-gray-600/50 rounded-t-xl pt-4">
               <CardTitle className="flex items-center text-gray-200 text-lg">
-                <Shield className="mr-2 h-6 w-6" /> Secondary Weapon
+                <Shield className="mr-2 h-6 w-6" /> Secondary weapon
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4 p-6">
@@ -259,7 +260,8 @@ export function LoadoutGenerator() {
               <Separator className="bg-gradient-to-r from-transparent via-gray-600/50 to-transparent" />
               <div>
                 <h4 className="font-semibold text-gray-300 mb-3 flex items-center">
-                  <Wrench className="mr-2 h-4 w-4" /> Attachments:
+                  <Wrench className="mr-2 h-4 w-4" /> Attachments
+                  :
                 </h4>
                 <div className="grid grid-cols-1 gap-3">
                   {currentLoadout.secondaryAttachments.map(
@@ -287,7 +289,7 @@ export function LoadoutGenerator() {
           <Card className="bg-gradient-to-br from-black/90 to-gray-900/90 border-0 ring-1 ring-gray-700/50 shadow-xl backdrop-blur-sm overflow-hidden py-0 gap-0 lg:col-span-2">
             <CardHeader className="bg-gradient-to-r from-gray-600/30 to-gray-500/30 border-b border-gray-600/50 rounded-t-xl pt-4">
               <CardTitle className="text-gray-200 text-lg flex items-center">
-                <Bomb className="mr-2 h-6 w-6" /> Equipment & Perks
+                <Bomb className="mr-2 h-6 w-6" /> Equipment and perks
               </CardTitle>
             </CardHeader>
             <CardContent className="p-6">
@@ -349,7 +351,7 @@ export function LoadoutGenerator() {
                   </h4>
                   <div className="bg-gradient-to-r from-purple-500/10 to-purple-600/10 border border-purple-500/30 p-6 rounded-lg text-center">
                     <div className="text-purple-400 text-sm font-medium mb-2">
-                      Special Ability
+                      Special ability
                     </div>
                     <div className="text-white font-bold text-lg">
                       {currentLoadout.wildcard?.name ?? "—"}
@@ -369,10 +371,10 @@ export function LoadoutGenerator() {
               <Target className="h-12 w-12 text-warzone" />
             </div>
             <h3 className="text-2xl font-bold text-white mb-3">
-              Ready to Drop?
+              Ready to deploy?
             </h3>
             <p className="text-gray-400 text-lg">
-              Click the button above to generate your perfect Warzone loadout
+              Click the button above to generate a complete Warzone loadout.
             </p>
           </CardContent>
         </Card>

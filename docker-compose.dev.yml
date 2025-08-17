@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  mariadb:
+    image: mariadb:latest
+    container_name: codrandom-mariadb-dev
+    environment:
+      - MARIADB_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-change-root}
+      - MARIADB_DATABASE=${DB_NAME:-codrandom}
+      - MARIADB_USER=${DB_USER:-app}
+      - MARIADB_PASSWORD=${DB_PASSWORD:-change-me}
+    ports:
+      - "127.0.0.1:3306:3306" # MySQL/MariaDB
+    volumes:
+      - mariadb-data-dev:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--su-mysql", "--connect", "--innodb_initialized", "--innodb_buffer_pool_loaded"]
+      interval: 5s
+      timeout: 5s
+      retries: 60
+      start_period: 30s
+    restart: unless-stopped
+
+volumes:
+  mariadb-data-dev:

@@ -4,6 +4,11 @@ import "@workspace/ui/globals.css";
 import { Providers } from "@/components/providers";
 import { Toaster } from "@workspace/ui/components/sonner";
 
+export const metadata = {
+  title: "Warzone Loadout Randomizer",
+  description: "Generate a complete Call of Duty: Warzone loadout in seconds.",
+};
+
 const fontSans = Geist({
   subsets: ["latin"],
   variable: "--font-sans",
