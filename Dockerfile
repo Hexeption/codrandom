@@ -7,7 +7,7 @@
 ########################################
 # Base image
 ########################################
-FROM node:20-slim AS base
+FROM node:24-slim AS base
 
 ENV PNPM_HOME=/pnpm \
 	NEXT_TELEMETRY_DISABLED=1
@@ -97,15 +97,23 @@ RUN apt-get update \
 	&& apt-get install -y --no-install-recommends openssl ca-certificates \
 	&& rm -rf /var/lib/apt/lists/*
 
+# Install Prisma CLI at runtime to allow db push before server start
+RUN npm i -g prisma@5.22.0 typescript ts-node
+
 # Use the already pruned production node_modules from builder (contains generated Prisma client)
 COPY --from=builder /app/node_modules /app/node_modules
 COPY --from=builder /app/apps/web/node_modules /app/apps/web/node_modules
+COPY --from=builder /app/packages/data/node_modules /app/packages/data/node_modules
 
 # Copy the built Next.js output and necessary app files
 COPY --from=builder /app/apps/web/.next/ /app/apps/web/.next/
 COPY --from=builder /app/apps/web/next.config.mjs /app/apps/web/next.config.mjs
 # Provide package.json so `pnpm -C apps/web start` can find the script
 COPY --from=builder /app/apps/web/package.json /app/apps/web/package.json
+COPY --from=builder /app/packages/data/package.json /app/packages/data/package.json
+COPY --from=builder /app/packages/data/prisma /app/packages/data/prisma
+# Remove local .env to avoid overriding container env DATABASE_URL
+RUN rm -f /app/packages/data/prisma/.env || true
 
 # Include workspace manifests so pnpm resolves binaries from the root installation
 COPY --from=builder /app/package.json /app/package.json
@@ -115,6 +123,6 @@ COPY --from=builder /app/pnpm-lock.yaml /app/pnpm-lock.yaml
 
 EXPOSE 3000
 
-# Start the Next.js server
-CMD ["pnpm", "-C", "apps/web", "start"]
-
+# Run Prisma db push, seed data, then start Next.js
+# Run Prisma db push, seed data (ts-node with NodeNext resolution), then start Next.js
+CMD ["sh", "-lc", "prisma db push --schema=/app/packages/data/prisma/schema.prisma --accept-data-loss --skip-generate && TS_NODE_COMPILER_OPTIONS='{\"module\":\"NodeNext\",\"moduleResolution\":\"NodeNext\"}' pnpm -C packages/data run seed:generated && pnpm -C apps/web start"]
