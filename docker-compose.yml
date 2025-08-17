@@ -18,5 +18,22 @@ services:
       retries: 30
     restart: unless-stopped
 
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: codrandom-web
+    environment:
+      # Match mariadb service credentials and database
+      - DATABASE_URL=mysql://$${DB_USER:-app}:$${DB_PASSWORD:-change-me}@mariadb:3306/$${DB_NAME:-codrandom}
+      # Optional: Next.js port can be changed; defaults to 3000
+      - PORT=3000
+    ports:
+      - "3000:3000"
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    restart: unless-stopped
+
 volumes:
   mariadb-data:
