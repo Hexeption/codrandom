@@ -12,10 +12,11 @@ services:
     volumes:
       - mariadb-data:/var/lib/mysql
     healthcheck:
-      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p$${MYSQL_ROOT_PASSWORD} --silent"]
+      test: [ "CMD", "healthcheck.sh", "--su-mysql", "--connect", "--innodb_initialized" ]
       interval: 5s
-      timeout: 3s
-      retries: 30
+      timeout: 5s
+      retries: 60
+      start_period: 30s
     restart: unless-stopped
 
   web:
@@ -24,9 +25,7 @@ services:
       dockerfile: Dockerfile
     image: codrandom-web
     environment:
-      # Match mariadb service credentials and database
-      - DATABASE_URL=mysql://$${DB_USER:-app}:$${DB_PASSWORD:-change-me}@mariadb:3306/$${DB_NAME:-codrandom}
-      # Optional: Next.js port can be changed; defaults to 3000
+      - DATABASE_URL=mysql://${DB_USER:-app}:${DB_PASSWORD:-change-me}@mariadb:3306/${DB_NAME:-codrandom}
       - PORT=3000
     ports:
       - "3000:3000"
