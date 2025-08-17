@@ -1,4 +1,4 @@
-import { readdir, readFile, mkdir, writeFile } from "fs/promises";
+import { readdir, readFile, mkdir, writeFile, stat } from "fs/promises";
 import { join, basename } from "path";
 
 type Parsed = {
@@ -251,13 +251,13 @@ function toFileSlug(game: string, name: string): string {
   return `${g}-${n}`;
 }
 
-function generateSeedModule(p: Parsed): string {
+function generateSeedModule(p: Parsed, seedUtilsImport: string): string {
   const comment = `/**
  * Generated seed modules live here. Do not edit by hand — run pnpm gen:seeds in the package to regenerate from weapon-notes/*.md.
  */\n\n`;
   const funcName = `seed_${toIdentifier(p.game)}_${toIdentifier(p.name)}`;
   const header = `import { PrismaClient } from '@prisma/client'
-import { ensureWeapon, ensureAttachment, ensureWeaponAttachment } from '../seed-utils'
+import { ensureWeapon, ensureAttachment, ensureWeaponAttachment } from '${seedUtilsImport}'
 
 export async function ${funcName}(prisma: PrismaClient) {\n`;
   const createWeapon = `  const weapon = await ensureWeapon(prisma, { name: ${JSON.stringify(
@@ -335,9 +335,27 @@ async function main() {
   const notesDir = join(process.cwd(), "weapon-notes");
   const outDir = join(process.cwd(), "prisma", "generated-seeds");
   await mkdir(outDir, { recursive: true });
-  const files = (await readdir(notesDir)).filter((f) => f.endsWith(".md"));
+  // Collect .md files from the root notes folder and immediate per-game subfolders (bo6, mw2, mw3)
+  const files: Array<{ path: string; rel: string }> = [];
+  const rootEntries = await readdir(notesDir);
+  for (const f of rootEntries) {
+    if (f.endsWith(".md")) files.push({ path: join(notesDir, f), rel: f });
+  }
+  for (const game of ["bo6", "mw2", "mw3"]) {
+    const dir = join(notesDir, game);
+    try {
+      const s = await stat(dir);
+      if (!s.isDirectory()) continue;
+      const ls = await readdir(dir);
+      for (const f of ls) {
+        if (f.endsWith(".md")) files.push({ path: join(dir, f), rel: join(game, f) });
+      }
+    } catch (_) {
+      // ignore missing subfolder
+    }
+  }
   if (!files.length) {
-    console.error(`No .md notes found in ${notesDir}`);
+    console.error(`No .md notes found in ${notesDir} or its subfolders`);
     process.exit(1);
   }
   const entries: Array<{ file: string; func: string }> = [];
@@ -407,7 +425,7 @@ async function main() {
     // ignore if folder doesn't exist
   }
   for (const f of files) {
-    const text = await readFile(join(notesDir, f), "utf8");
+    const text = await readFile(f.path, "utf8");
     // Special handling for the global loadout lists (no Gun: header)
     if (!/^Gun:\s*/m.test(text)) {
       if (!loadoutSeedAdded) {
@@ -421,7 +439,7 @@ async function main() {
           console.log(`Generated loadout seed -> ${basename(outPath)}`);
           loadoutSeedAdded = true;
         } else {
-          console.warn(`Skipping ${f}: no Gun: header`);
+          console.warn(`Skipping ${f.rel}: no Gun: header`);
         }
       }
       continue;
@@ -429,16 +447,19 @@ async function main() {
     try {
       const parsed = await parseNotes(text);
       const slug = toFileSlug(parsed.game, parsed.name);
-      const ts = generateSeedModule(parsed);
-      const outPath = join(outDir, `${slug}.ts`);
+  const ts = generateSeedModule(parsed, '../../seed-utils');
+      // Write to per-game subfolder (e.g., generated-seeds/bo6/bo6-weapon.ts)
+      const gameOutDir = join(outDir, parsed.game.toLowerCase());
+      await mkdir(gameOutDir, { recursive: true });
+      const outPath = join(gameOutDir, `${slug}.ts`);
       await writeFile(outPath, ts, "utf8");
       const funcName = `seed_${toIdentifier(parsed.game)}_${toIdentifier(parsed.name)}`;
-      entries.push({ file: `./${slug}`, func: funcName });
+      entries.push({ file: `./${parsed.game.toLowerCase()}/${slug}`, func: funcName });
       console.log(
-        `Generated seed for ${parsed.name} (${parsed.game}) -> ${basename(outPath)}`,
+        `Generated seed for ${parsed.name} (${parsed.game}) -> ${parsed.game.toLowerCase()}/${basename(outPath)}`,
       );
     } catch (e: any) {
-      console.warn(`Skipping ${f}: ${e?.message ?? e}`);
+      console.warn(`Skipping ${f.rel}: ${e?.message ?? e}`);
     }
   }
   const index = entries
