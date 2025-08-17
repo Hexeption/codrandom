@@ -1,13 +1,22 @@
 version: '3.8'
 services:
-  cockroachdb:
-    image: cockroachdb/cockroach:v23.2.9
-    command: ["start-single-node", "--insecure"]
+  mariadb:
+    image: mariadb:latest
+    environment:
+      - MARIADB_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-change-root}
+      - MARIADB_DATABASE=${DB_NAME:-codrandom}
+      - MARIADB_USER=${DB_USER:-app}
+      - MARIADB_PASSWORD=${DB_PASSWORD:-change-me}
     ports:
-      - "26257:26257" # SQL
-      - "8080:8080"   # Admin UI
+      - "127.0.0.1:3306:3306" # MySQL/MariaDB
     volumes:
-      - cockroach-data:/cockroach/cockroach-data
+      - mariadb-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p$${MYSQL_ROOT_PASSWORD} --silent"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+    restart: unless-stopped
 
 volumes:
-  cockroach-data:
+  mariadb-data:

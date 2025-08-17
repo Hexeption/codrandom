@@ -9,6 +9,7 @@
   "scripts": {
     "prisma:generate": "prisma generate",
     "prisma:push": "prisma db push --schema=prisma/schema.prisma --accept-data-loss",
+    "prisma:studio": "prisma studio",
     "seed": "ts-node --transpile-only prisma/generated-seeds/index.ts",
     "start": "ts-node --transpile-only src/loadout.ts",
     "gen:seeds": "ts-node --transpile-only scripts/gen-seeds.ts",

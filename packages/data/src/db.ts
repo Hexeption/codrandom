@@ -32,7 +32,7 @@ export async function getMeleeWeapons(filter?: {
 export async function getAttachmentsForWeapon(
   weaponId: bigint | number,
 ): Promise<Attachment[]> {
-  // Prisma uses BigInt for IDs with CockroachDB, accept number or bigint
+  // Prisma models use BigInt IDs. Accept number or bigint and normalize.
   const id = typeof weaponId === "bigint" ? weaponId : BigInt(weaponId);
   const rows = await prisma.weaponAttachment.findMany({
     where: { weaponId: id },
