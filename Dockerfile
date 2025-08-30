@@ -125,4 +125,4 @@ EXPOSE 3000
 
 # Run Prisma db push, seed data, then start Next.js
 # Run Prisma db push, seed data (ts-node with NodeNext resolution), then start Next.js
-CMD ["sh", "-lc", "prisma db push --schema=/app/packages/data/prisma/schema.prisma --accept-data-loss --skip-generate && TS_NODE_COMPILER_OPTIONS='{\"module\":\"NodeNext\",\"moduleResolution\":\"NodeNext\"}' pnpm -C packages/data run seed:generated && pnpm -C apps/web start"]
+CMD ["sh", "-lc", "prisma db push --schema=/app/packages/data/prisma/schema.prisma --accept-data-loss --skip-generate && TS_NODE_COMPILER_OPTIONS='{\"module\":\"NodeNext\",\"moduleResolution\":\"NodeNext\"}' pnpm -C packages/data run seed && pnpm -C apps/web start"]
