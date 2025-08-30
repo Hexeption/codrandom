@@ -1,34 +1,27 @@
-## codrandom monorepo
+## Cod Random
 
-Monorepo with Next.js app and shared UI package.
+codrandom is a monorepo that provides a Next.js web app and shared packages to generate randomized Call of Duty loadouts.
 
-## Usage
 
-Uses pnpm workspaces and turbo.
+Quickstart (development)
 
-## Adding components
+1. Install dependencies at repo root:
 
-To add components to your app, run the following command at the root of your `web` app:
+	pnpm install
 
-From repo root:
+2. Start the development server for the web app:
 
-- Install: `pnpm install`
-- Dev all: `pnpm dev`
-- Build all: `pnpm build`
+	pnpm dev --filter=@workspace/web
+
+Common tasks
+
+- Build all packages: `pnpm build`
+- Run data seed: `pnpm -C packages/data run seed`
 - Lint: `pnpm lint`
 
-Add UI components to `packages/ui` using shadcn in the web app if needed.
+Where to look
+- Web app: `apps/web`
+- Data & seed scripts: `packages/data`
+- Shared UI: `packages/ui`
 
-This will place the ui components in the `packages/ui/src/components` directory.
-
-## Tailwind
-
-Your `tailwind.config.ts` and `globals.css` are already set up to use the components from the `ui` package.
-
-## Using components
-
-To use the components in your app, import them from the `ui` package.
-
-```tsx
-import { Button } from "@workspace/ui/components/button";
 ```
