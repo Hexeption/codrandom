@@ -13,13 +13,15 @@
     "seed": "ts-node --transpile-only prisma/generated-seeds/index.ts",
     "start": "ts-node --transpile-only src/loadout.ts",
     "gen:seeds": "ts-node --transpile-only scripts/gen-seeds.ts",
-    "seed:generated": "ts-node --transpile-only prisma/generated-seeds/index.ts"
+    "scrape:wiki": "ts-node --transpile-only scripts/scrape-wiki.ts"
   },
   "prisma": {
     "seed": "ts-node --transpile-only prisma/generated-seeds/index.ts"
   },
   "dependencies": {
-    "@prisma/client": "^5.8.0"
+    "@prisma/client": "^5.8.0",
+    "cheerio": "^1.0.0",
+    "undici": "^6.19.8"
   },
   "devDependencies": {
     "prisma": "^5.8.0",

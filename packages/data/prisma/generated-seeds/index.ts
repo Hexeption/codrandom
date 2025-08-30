@@ -47,6 +47,36 @@ import { seed_bO6_tR2 as w45 } from './bo6/bo6-tr2'
 import { seed_bO6_tsarkov762 as w46 } from './bo6/bo6-tsarkov-7-62'
 import { seed_bO6_xM4 as w47 } from './bo6/bo6-xm4'
 import { seed_bO6_xMG as w48 } from './bo6/bo6-xmg'
+import { seed_mW2_bASP as w49 } from './mw2/mw2-bas-p'
+import { seed_mW2_chimera as w50 } from './mw2/mw2-chimera'
+import { seed_mW2_cronenSquall as w51 } from './mw2/mw2-cronen-squall'
+import { seed_mW2_fennec45 as w52 } from './mw2/mw2-fennec-45'
+import { seed_mW2_fRAvancer as w53 } from './mw2/mw2-fr-avancer'
+import { seed_mW2_fSSHurricane as w54 } from './mw2/mw2-fss-hurricane'
+import { seed_mW2_fTacRecon as w55 } from './mw2/mw2-ftac-recon'
+import { seed_mW2_iSO45 as w56 } from './mw2/mw2-iso-45'
+import { seed_mW2_iSOHemlock as w57 } from './mw2/mw2-iso-hemlock'
+import { seed_mW2_kastov545 as w58 } from './mw2/mw2-kastov-545'
+import { seed_mW2_kastov74u as w59 } from './mw2/mw2-kastov-74u'
+import { seed_mW2_kastov762 as w60 } from './mw2/mw2-kastov-762'
+import { seed_mW2_lachmann556 as w61 } from './mw2/mw2-lachmann-556'
+import { seed_mW2_lachmann556 as w62 } from './mw2/mw2-lachmann-556'
+import { seed_mW2_lachmannSub as w63 } from './mw2/mw2-lachmann-sub'
+import { seed_mW2_m13B as w64 } from './mw2/mw2-m13b'
+import { seed_mW2_m13C as w65 } from './mw2/mw2-m13c'
+import { seed_mW2_m16 as w66 } from './mw2/mw2-m16'
+import { seed_mW2_m4 as w67 } from './mw2/mw2-m4'
+import { seed_mW2_minibak as w68 } from './mw2/mw2-minibak'
+import { seed_mW2_mX9 as w69 } from './mw2/mw2-mx9'
+import { seed_mW2_pDSW528 as w70 } from './mw2/mw2-pdsw-528'
+import { seed_mW2_sO14 as w71 } from './mw2/mw2-so-14'
+import { seed_mW2_sTB556 as w72 } from './mw2/mw2-stb-556'
+import { seed_mW2_tAQ56 as w73 } from './mw2/mw2-taq-56'
+import { seed_mW2_tAQV as w74 } from './mw2/mw2-taq-v'
+import { seed_mW2_tempusRazorback as w75 } from './mw2/mw2-tempus-razorback'
+import { seed_mW2_tR76Geist as w76 } from './mw2/mw2-tr-76-geist'
+import { seed_mW2_vaznev9K as w77 } from './mw2/mw2-vaznev-9k'
+import { seed_mW2_vEL46 as w78 } from './mw2/mw2-vel-46'
 import { PrismaClient } from '@prisma/client'
 export async function runAllGenerated(prisma?: PrismaClient) {
   const p = prisma ?? new PrismaClient()
@@ -99,6 +129,36 @@ export async function runAllGenerated(prisma?: PrismaClient) {
   await w46(p)
   await w47(p)
   await w48(p)
+  await w49(p)
+  await w50(p)
+  await w51(p)
+  await w52(p)
+  await w53(p)
+  await w54(p)
+  await w55(p)
+  await w56(p)
+  await w57(p)
+  await w58(p)
+  await w59(p)
+  await w60(p)
+  await w61(p)
+  await w62(p)
+  await w63(p)
+  await w64(p)
+  await w65(p)
+  await w66(p)
+  await w67(p)
+  await w68(p)
+  await w69(p)
+  await w70(p)
+  await w71(p)
+  await w72(p)
+  await w73(p)
+  await w74(p)
+  await w75(p)
+  await w76(p)
+  await w77(p)
+  await w78(p)
   if (!prisma) await p.$disconnect()
 }
 if (require.main === module) {

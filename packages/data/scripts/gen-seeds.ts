@@ -221,7 +221,10 @@ async function parseNotes(text: string): Promise<Parsed> {
     Comb: "comb",
     Lever: "lever",
     Laser: "laser",
+    Ammunition: "ammo",
     "Fire Mods": "fire_mod",
+    "Aftermarket Parts": "aftermarket",
+    Rail: "rail",
   };
   const attachments = parseSections(text, sections);
   return {
@@ -276,9 +279,8 @@ export async function ${funcName}(prisma: PrismaClient) {\n`;
     )
     .join("\n");
   const footer = `}\n`;
-  return `${comment}${header}${createWeapon}${
-    linkAttachments ? linkAttachments + "\n" : ""
-  }${footer}`;
+  return `${comment}${header}${createWeapon}${linkAttachments ? linkAttachments + "\n" : ""
+    }${footer}`;
 }
 
 function generateLoadoutSeedModule(p: LoadoutParsed): string {
@@ -447,7 +449,7 @@ async function main() {
     try {
       const parsed = await parseNotes(text);
       const slug = toFileSlug(parsed.game, parsed.name);
-  const ts = generateSeedModule(parsed, '../../seed-utils');
+      const ts = generateSeedModule(parsed, '../../seed-utils');
       // Write to per-game subfolder (e.g., generated-seeds/bo6/bo6-weapon.ts)
       const gameOutDir = join(outDir, parsed.game.toLowerCase());
       await mkdir(gameOutDir, { recursive: true });
